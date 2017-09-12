@@ -2,25 +2,35 @@
 % Please edit documentation in R/adaptive_sample.R
 \name{adap.sample}
 \alias{adap.sample}
-\title{do adaptive sampling depending on y value}
+\title{Adaptive sampling}
 \usage{
-adap.sample(y, nstar = NULL, nslice = 10, sliceMethod = "NULL")
+adap.sample(y, nbasis = NULL, nslice = 11, sliceMethod = NULL)
 }
 \arguments{
 \item{y}{A vecotr of response value.}
 
-\item{nstar}{A number of sample size. If it is \code{NULL}, the number would be \eqn{10n^{2/9}}}
+\item{nbasis}{A number of approximate sample size. If it is \code{NULL}, the number would be
+\code{max(30, 10*n^(2/9))}}
 
-\item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it isn't effective.}
+\item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.}
 
-\item{sliceMethod}{A string of slice method among "NULL", "Scott", "Sturges", "FD"(Freddman and Diaconis)}
+\item{sliceMethod}{A string of slice method among "Scott", "Sturges", "FD"(Freddman and Diaconis).
+The default is \code{NULL} (NULL is not a string).
+The number of slices depends on the method in function: \code{\link[stats]{hist}}.}
 }
 \value{
-Index of selected samples in \code{y}.
+A vector of index of selected samples in \code{y}.
 }
 \description{
-do adaptive sampling depending on y value
+Do adaptive sampling depending on y value
 }
 \examples{
-adap.sample(y=1:10, sliceMethod="Scott")
+# do adaptive sampling based on the value of y
+## number of samples is default as max(30, 10*n^(2/9))
+## slices are divided by rule of "Scoot" of hist().
+adap.sample(y=1:100, sliceMethod="Scott")
+
+}
+\seealso{
+The methods of divided slices in \code{\link[stats]{hist}}.
 }
