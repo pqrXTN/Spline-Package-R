@@ -5,7 +5,8 @@
 \title{Fit ssanova with sampling model.}
 \usage{
 adap.ssanova(x, y, alpha = NULL, nbasis = NULL, nslice = 10,
-  sliceMethod = NULL, returnIndex = FALSE, plotFit = FALSE)
+  sliceMethod = NULL, splineFormula = NULL, returnIndex = FALSE,
+  plotFit = FALSE)
 }
 \arguments{
 \item{x}{A vector (or a matrix or data.frame) of independent varibles.
@@ -23,6 +24,8 @@ If it is \code{NULL}, the default number is \code{max(30, 10*n^(2/9))}.}
 \item{sliceMethod}{A string of slice method among "Scott","Sturges", "FD"(Freddman and Diaconis).
 The default is \code{NULL} (NULL is not a string).
 The number of slices depends on the method.}
+
+\item{splineFormula}{A string of formula of spline function. See more description in details.}
 
 \item{returnIndex}{A boolean whether return index of samples.}
 
@@ -45,4 +48,17 @@ If x is a matrix, generate a data.frame of x & y;
 
   When use function: \code{predict()}, follow the naming scheme as "x1, x2, ... xn"
   in new data.frame
+
+  In parameter \code{splineFormula}, default is \code{NULL}.
+  \itemize{
+    \item If x is 1D, default is \code{"y~x"};
+    \item If x is mD, default is \code{"y ~ x1*x2*... *xm"}.
+    \item \code{"1 +x1 + x2"} stands for:      c + f1(x1) + f2(x2);
+    \item \code{"1 + x1 + x1:x2"} stands for:  c + f1(x1) + f12(x1,x2);
+    \item \code{"1 + x1*x2"} stands for:       c + f1(x1) + f2(x2) + f12(x1,x2);
+    \item etc.
+  }
+}
+\seealso{
+\code{\link{adap.sample}} for details of adaptive sampling.
 }

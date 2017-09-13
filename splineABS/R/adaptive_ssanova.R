@@ -10,6 +10,16 @@
 #'   When use function: \code{predict()}, follow the naming scheme as "x1, x2, ... xn"
 #'   in new data.frame
 #'
+#'   In parameter \code{splineFormula}, default is \code{NULL}.
+#'   \itemize{
+#'     \item If x is 1D, default is \code{"y~x"};
+#'     \item If x is mD, default is \code{"y ~ x1*x2*... *xm"}.
+#'     \item \code{"1 +x1 + x2"} stands for:      c + f1(x1) + f2(x2);
+#'     \item \code{"1 + x1 + x1:x2"} stands for:  c + f1(x1) + f12(x1,x2);
+#'     \item \code{"1 + x1*x2"} stands for:       c + f1(x1) + f2(x2) + f12(x1,x2);
+#'     \item etc.
+#'   }
+#'
 #' @param x         A vector (or a matrix or data.frame) of independent varibles.
 #' (But now, we just realize vector part)
 #' @param y         A vector of response varibles with noise
@@ -21,6 +31,7 @@
 #' @param sliceMethod A string of slice method among "Scott","Sturges", "FD"(Freddman and Diaconis).
 #'                    The default is \code{NULL} (NULL is not a string).
 #'                    The number of slices depends on the method.
+#' @param splineFormula A string of formula of spline function. See more description in details.
 #' @param returnIndex A boolean whether return index of samples.
 #' @param plotFit   A boolean to plot saccter of (x,y), the samples and the smoothing curve.
 #'
@@ -29,14 +40,18 @@
 #'         If required return index of samples, return a list named \code{fitModel}(list)
 #'         and \code{sample.index}(vector).
 #'
-#' @import stats
+#' @seealso
+#' \code{\link{adap.sample}} for details of adaptive sampling.
+#'
+#' @import stats gss
 #' @export
 #'
 adap.ssanova <- function(x, y, alpha=NULL, nbasis=NULL, nslice=10, sliceMethod=NULL,
+                         splineFormula = NULL,
                          returnIndex = FALSE, plotFit = FALSE){
 
   # do adaptive sampling
-  samples.index <- adap.sample(y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
+  samples.index <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
 
   # In case the x is a matirx or data.frame(>=2D) instead of a vector(1D)
   # generate a string of spline formula and a data.frame containing x and y
@@ -47,7 +62,9 @@ adap.ssanova <- function(x, y, alpha=NULL, nbasis=NULL, nslice=10, sliceMethod=N
   formula.and.df <- gen.formula.and.df(x, y)
   x.dim <- formula.and.df$x.dim
   xy.df <- formula.and.df$xy.df
-  spline.formula <- formula.and.df$spline.formula
+  if(is.null(splineFormula)){
+    spline.formula <- formula.and.df$spline.formula
+  }
   rm(formula.and.df)
 
   # do fit model by ssanova in package: "gss"

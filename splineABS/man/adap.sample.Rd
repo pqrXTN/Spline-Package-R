@@ -4,7 +4,7 @@
 \alias{adap.sample}
 \title{Adaptive sampling}
 \usage{
-adap.sample(y, nbasis = NULL, nslice = 11, sliceMethod = NULL)
+adap.sample(x, y, nbasis = NULL, nslice = 11, sliceMethod = NULL)
 }
 \arguments{
 \item{y}{A vecotr of response value.}
@@ -25,7 +25,7 @@ A vector of index of selected samples in \code{y}.
 Do adaptive sampling depending on y value
 }
 \examples{
-# do adaptive sampling based on the value of y
+# do adaptive sampling based on the value of y.
 ## number of samples is default as max(30, 10*n^(2/9))
 ## slices are divided by rule of "Scoot" of hist().
 adap.sample(y=1:100, sliceMethod="Scott")
@@ -33,4 +33,6 @@ adap.sample(y=1:100, sliceMethod="Scott")
 }
 \seealso{
 The methods of divided slices in \code{\link[stats]{hist}}.
+
+Get the boundary of x data. \code{\link{find.boundary}}.
 }

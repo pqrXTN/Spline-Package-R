@@ -9,13 +9,25 @@
 #'   The fitting of smoothing spline model with Gaussian noise is based on package \code{gss}.
 #'
 #'   If x is a matrix, generate a data.frame of x & y;
-#'   generate string of formular for high demesion like: \code{"y ~ x1 * x2 * ... * xn"}.
+#'   generate string of formular for high demesion like(if \code{splineFormula == NULL}):
+#'      \code{"y ~ x1 * x2 * ... * xn"}.
 #'   Do not plot if x is a matrix, since we cannot plot when dimension is more than 2.
+#'
+#'   In parameter \code{splineFormula}, default is \code{NULL}.
+#'   \itemize{
+#'     \item If x is 1D, default is \code{"y~x"};
+#'     \item If x is mD, default is \code{"y ~ x1*x2*... *xm"}.
+#'     \item \code{"1 +x1 + x2"} stands for:      c + f1(x1) + f2(x2);
+#'     \item \code{"1 + x1 + x1:x2"} stands for:  c + f1(x1) + f12(x1,x2);
+#'     \item \code{"1 + x1*x2"} stands for:       c + f1(x1) + f2(x2) + f12(x1,x2);
+#'     \item etc.
+#'   }
 #'
 #' @param x         A vector (or a matrix or data.frame) of independent varibles.
 #' @param y         A vector of response varibles with noise
 #' @param v         A vector of response varibles of true value (without noise).
 #' @param alpha     A number of modifying minimizing GCV in \code{ssanova} of package \code{[gss]{ssanova}}.
+#' @param splineFormula A string of formula of spline function. See more description in details.
 #'
 #' @inheritParams adap.sample
 #' @inheritParams gen.simu.data
@@ -34,18 +46,25 @@
 #'         and a data.frame of consuming time.
 #'
 #' @examples
+#' # use simulation data of "1dfan", get slice by "Scott" method.
+#' # run 10 times in iteration.
 #' compare.mse(genMethod = "1dfan", nobs = 1024, sliceMethod = "Scott", times = 10)
 #'
 #' @seealso \code{\link[gss]{ssanova}} for smoothing spline,
+#'
 #'          \code{\link{adap.sample}} for adaptive sampling,
+#'
 #'          \code{\link{gen.simu.data}} for generating simulation data,
+#'
 #'          \code{\link{fit.plot}} for plot fitted figures.
 #'
-#' @import stats
+#' @import stats gss
 #' @export
+#'
 #'
 compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7, nobs=1024, SNR=7,
                         alpha=1.4, nbasis=NULL, nslice=10, sliceMethod=NULL,
+                        splineFormula = NULL,
                         times=1, plotBox=FALSE, calTime=FALSE, seed=NULL,
                         printIter=FALSE, plotFit=FALSE){
 
@@ -99,13 +118,15 @@ compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7, nobs=1
       formula.and.df <- gen.formula.and.df(x, y)
       x.dim <- formula.and.df$x.dim
       xy.df <- formula.and.df$xy.df
-      spline.formula <- formula.and.df$spline.formula
+      if(is.null(splineFormula)){
+        spline.formula <- formula.and.df$spline.formula
+      }
       rm(formula.and.df)
 
 
       # get samples of ABS and UBS.
       ## UBS is based on the sample size of ABS, but sampling method is simple random sampling.
-      sampleIndex.abs <- adap.sample(y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
+      sampleIndex.abs <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
       sampleIndex.ubs <- sample(1:length(y), length(sampleIndex.abs))
 
       # apply gss::ssanova to 1) full samples; 2)uniform samples; 3) adaptive samples
@@ -124,11 +145,10 @@ compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7, nobs=1
 
 
       # calcualte mse, use data.frame generated before.
-      # x.df <- data.frame(x = x)
-
-      est.full <- predict(model.full, newdata = xy.df[,1:dim.x], se.fit = TRUE)
-      est.ubs  <- predict(model.ubs,  newdata = xy.df[,1:dim.x], se.fit = TRUE)
-      est.abs  <- predict(model.abs,  newdata = xy.df[,1:dim.x], se.fit = TRUE)
+      ## in case the data.frame degrades into vector, use parameter "drop == FALSE".
+      est.full <- predict(model.full, newdata = xy.df[,1:x.dim, drop=FALSE], se.fit = TRUE)
+      est.ubs  <- predict(model.ubs,  newdata = xy.df[,1:x.dim, drop=FALSE], se.fit = TRUE)
+      est.abs  <- predict(model.abs,  newdata = xy.df[,1:x.dim, drop=FALSE], se.fit = TRUE)
 
       mse.full <- mean((est.full$fit- v)^2)
       mse.ubs  <- mean((est.ubs$fit - v)^2)
@@ -150,7 +170,7 @@ compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7, nobs=1
 
     # if required, plot model in last iteration.
     ## plot only when x is a vector. i.e. we just plot 2D figure.
-    if((plotFit == TRUE) &(x.dim == 1)){
+    if((plotFit == TRUE) & (x.dim == 1)){
       par(mfrow=c(2,2))
       titles <- c("Truth", "Full", "UBS", "ABS")
 

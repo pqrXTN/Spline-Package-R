@@ -16,7 +16,7 @@
 #' @param sampleIndex A vector of index of selected sample.
 #' @param fitModel    A list of fitted model of \code{gss::ssanova}.
 #'                    (result of other fitting function like \code{lm} is also acceptable).
-#' @param figTitle       A string of figure' s title.
+#' @param figTitle    A string of figure' s title.
 #'
 #' @return NULL
 #'

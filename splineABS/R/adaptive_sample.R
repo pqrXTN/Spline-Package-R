@@ -13,7 +13,7 @@
 #' @return A vector of index of selected samples in \code{y}.
 #'
 #' @examples
-#' # do adaptive sampling based on the value of y
+#' # do adaptive sampling based on the value of y.
 #' ## number of samples is default as max(30, 10*n^(2/9))
 #' ## slices are divided by rule of "Scoot" of hist().
 #' adap.sample(y=1:100, sliceMethod="Scott")
@@ -24,11 +24,15 @@
 #' @seealso
 #' The methods of divided slices in \code{\link[stats]{hist}}.
 #'
-adap.sample <- function(y, nbasis=NULL, nslice=11, sliceMethod=NULL){
+#' Get the boundary of x data. \code{\link{find.boundary}}.
+#'
+adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
 
-  # initiate a set of sampling index, it automatically includes the minimum and maximum.
+  # initiate a set of sampling index
+  # sampling set initially includes the minimum and maximum, and the boundary points of x
   nobs <- length(y)
-  sample.index <- c(which.min(y), which.max(y))
+
+  sample.index <- c(find.boundary(c(1,3,3,2,2,2)), which.min(y), which.max(y))
 
   # decide the sampling size and break point of each slice.
   # it depends on `sliceMethod` and `nslice``

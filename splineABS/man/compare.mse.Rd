@@ -6,8 +6,9 @@
 \usage{
 compare.mse(x = NULL, y = NULL, v = NULL, genMethod = NULL,
   signal = 7, nobs = 1024, SNR = 7, alpha = 1.4, nbasis = NULL,
-  nslice = 10, sliceMethod = NULL, times = 1, plotBox = FALSE,
-  calTime = FALSE, seed = NULL, printIter = FALSE, plotFit = FALSE)
+  nslice = 10, sliceMethod = NULL, splineFormula = NULL, times = 1,
+  plotBox = FALSE, calTime = FALSE, seed = NULL, printIter = FALSE,
+  plotFit = FALSE)
 }
 \arguments{
 \item{x}{A vector (or a matrix or data.frame) of independent varibles.}
@@ -35,6 +36,8 @@ compare.mse(x = NULL, y = NULL, v = NULL, genMethod = NULL,
 \item{sliceMethod}{A string of slice method among "Scott", "Sturges", "FD"(Freddman and Diaconis).
 The default is \code{NULL} (NULL is not a string).
 The number of slices depends on the method in function: \code{\link[stats]{hist}}.}
+
+\item{splineFormula}{A string of formula of spline function. See more description in details.}
 
 \item{times}{An integer number of how many times we repeat sampling.}
 
@@ -65,16 +68,32 @@ Run n times of spline model based on Full samples, unif sampling and adaptive sa
   The fitting of smoothing spline model with Gaussian noise is based on package \code{gss}.
 
   If x is a matrix, generate a data.frame of x & y;
-  generate string of formular for high demesion like: \code{"y ~ x1 * x2 * ... * xn"}.
+  generate string of formular for high demesion like(if \code{splineFormula == NULL}):
+     \code{"y ~ x1 * x2 * ... * xn"}.
   Do not plot if x is a matrix, since we cannot plot when dimension is more than 2.
+
+  In parameter \code{splineFormula}, default is \code{NULL}.
+  \itemize{
+    \item If x is 1D, default is \code{"y~x"};
+    \item If x is mD, default is \code{"y ~ x1*x2*... *xm"}.
+    \item \code{"1 +x1 + x2"} stands for:      c + f1(x1) + f2(x2);
+    \item \code{"1 + x1 + x1:x2"} stands for:  c + f1(x1) + f12(x1,x2);
+    \item \code{"1 + x1*x2"} stands for:       c + f1(x1) + f2(x2) + f12(x1,x2);
+    \item etc.
+  }
 }
 \examples{
+# use simulation data of "1dfan", get slice by "Scott" method.
+# run 10 times in iteration.
 compare.mse(genMethod = "1dfan", nobs = 1024, sliceMethod = "Scott", times = 10)
 
 }
 \seealso{
 \code{\link[gss]{ssanova}} for smoothing spline,
+
          \code{\link{adap.sample}} for adaptive sampling,
+
          \code{\link{gen.simu.data}} for generating simulation data,
+
          \code{\link{fit.plot}} for plot fitted figures.
 }
