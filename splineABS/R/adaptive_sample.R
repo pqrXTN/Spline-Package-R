@@ -4,11 +4,13 @@
 #'
 #' @param y       A vecotr of response value.
 #' @param nbasis  A number of approximate sample size. If it is \code{NULL}, the number would be
-#'                \code{max(30, 10*n^(2/9))}
+#'                \code{max(30 * m, 10*m*(n/m)^(2/9))}, where m is the subset numbers.
 #' @param nslice  A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.
 #' @param sliceMethod A string of slice method among "Scott", "Sturges", "FD"(Freddman and Diaconis).
 #'                    The default is \code{NULL} (NULL is not a string).
 #'                    The number of slices depends on the method in function: \code{\link[stats]{hist}}.
+#' @param subsetNumber A number of subsets in method "Divid and Conquer". 
+#'                     If >1 generate more samples.
 #'
 #' @return A vector of index of selected samples in \code{y}.
 #'
@@ -26,13 +28,13 @@
 #'
 #' Get the boundary of x data. \code{\link{find.boundary}}.
 #'
-adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
+adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL, subsetNumber = 1){
 
   # initiate a set of sampling index
   # sampling set initially includes the minimum and maximum, and the boundary points of x
   nobs <- length(y)
 
-  sample.index <- c(find.boundary(c(1,3,3,2,2,2)), which.min(y), which.max(y))
+  sample.index <- c(find.boundary(x), which.min(y), which.max(y))
 
   # decide the sampling size and break point of each slice.
   # it depends on `sliceMethod` and `nslice``
@@ -46,7 +48,7 @@ adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
 
   # decide numbers of obsevation in each slice
   if(is.null(nbasis)){
-    nbasis <- max(30, ceiling(10 * nobs^(2/9)))
+    nbasis <- max(30 * subsetNumber, subsetNumber * ceiling(10 * (nobs/subsetNumber)^(2/9)) )
   }
 
   nobs.slice <- ceiling(nbasis/nslice)

@@ -27,6 +27,7 @@
 #' @param y         A vector of response varibles with noise
 #' @param v         A vector of response varibles of true value (without noise).
 #' @param alpha     A number of modifying minimizing GCV in \code{ssanova} of package \code{[gss]{ssanova}}.
+#'                  alpha = 1 indicates using unmodified cross validation to determine lambda.
 #' @param splineFormula A string of formula of spline function. See more description in details.
 #'
 #' @inheritParams adap.sample
@@ -63,7 +64,7 @@
 #'
 #'
 compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7, nobs=1024, SNR=7,
-                        alpha=1.4, nbasis=NULL, nslice=10, sliceMethod=NULL,
+                        alpha= -1, nbasis=NULL, nslice=10, sliceMethod=NULL,
                         splineFormula = NULL,
                         times=1, plotBox=FALSE, calTime=FALSE, seed=NULL,
                         printIter=FALSE, plotFit=FALSE){
@@ -103,7 +104,7 @@ compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7, nobs=1
       # genearte data(genMethod != NULL) or use given data
       if(!is.null(genMethod)){
         data.xyv <- gen.simu.data(nobs = nobs, genMethod = genMethod, signal = signal, SNR = SNR,
-                                  seed = seed, test = TRUE)
+                                  seed = seed)
         x <- data.xyv$x
         y <- data.xyv$y
         v <- data.xyv$v

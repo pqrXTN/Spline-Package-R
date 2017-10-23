@@ -5,7 +5,7 @@
 \title{Generate 1D Fan-Gijbels simulation data}
 \usage{
 gen.simu.data(nobs = 1024, genMethod = "1dfan", SNR = 7, signal = 7,
-  seed = 123, test = FALSE)
+  seed = NULL)
 }
 \arguments{
 \item{nobs}{A number of observations in simulation.}
@@ -18,8 +18,6 @@ gen.simu.data(nobs = 1024, genMethod = "1dfan", SNR = 7, signal = 7,
 \item{signal}{A number about amplitude in response value of "DJ" method.}
 
 \item{seed}{A number of base of random seed.}
-
-\item{test}{A boolean. If \code{TRUE}, set random seeds.}
 }
 \value{
 A list contains generated \code{x, y, v}.

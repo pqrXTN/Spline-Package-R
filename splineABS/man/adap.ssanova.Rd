@@ -6,7 +6,7 @@
 \usage{
 adap.ssanova(x, y, alpha = NULL, nbasis = NULL, nslice = 10,
   sliceMethod = NULL, splineFormula = NULL, returnIndex = FALSE,
-  plotFit = FALSE)
+  calculateTime = FALSE, plotFit = FALSE)
 }
 \arguments{
 \item{x}{A vector (or a matrix or data.frame) of independent varibles.
@@ -14,7 +14,7 @@ adap.ssanova(x, y, alpha = NULL, nbasis = NULL, nslice = 10,
 
 \item{y}{A vector of response varibles with noise}
 
-\item{alpha}{A number of modifying minimizing GCV in \code{gss::ssanova}. Default = NULL (1.4).}
+\item{alpha}{A number of modifying minimizing GCV in \code{gss::ssanova}. Default = NULL (-1).}
 
 \item{nbasis}{A number of approximate sample size in adaptive sample.
 If it is \code{NULL}, the default number is \code{max(30, 10*n^(2/9))}.}
@@ -28,6 +28,8 @@ The number of slices depends on the method.}
 \item{splineFormula}{A string of formula of spline function. See more description in details.}
 
 \item{returnIndex}{A boolean whether return index of samples.}
+
+\item{calculateTime}{A boolean whether calculate the time of fitted model.}
 
 \item{plotFit}{A boolean to plot saccter of (x,y), the samples and the smoothing curve.}
 }

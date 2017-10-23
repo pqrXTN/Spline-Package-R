@@ -5,7 +5,7 @@
 \title{Compare mse and running time.}
 \usage{
 compare.mse(x = NULL, y = NULL, v = NULL, genMethod = NULL,
-  signal = 7, nobs = 1024, SNR = 7, alpha = 1.4, nbasis = NULL,
+  signal = 7, nobs = 1024, SNR = 7, alpha = -1, nbasis = NULL,
   nslice = 10, sliceMethod = NULL, splineFormula = NULL, times = 1,
   plotBox = FALSE, calTime = FALSE, seed = NULL, printIter = FALSE,
   plotFit = FALSE)
@@ -26,10 +26,11 @@ compare.mse(x = NULL, y = NULL, v = NULL, genMethod = NULL,
 
 \item{SNR}{A number of "signal to noise" ratio: the ratio of standard deviation of signal to noise.}
 
-\item{alpha}{A number of modifying minimizing GCV in \code{ssanova} of package \code{[gss]{ssanova}}.}
+\item{alpha}{A number of modifying minimizing GCV in \code{ssanova} of package \code{[gss]{ssanova}}.
+alpha = 1 indicates using unmodified cross validation to determine lambda.}
 
 \item{nbasis}{A number of approximate sample size. If it is \code{NULL}, the number would be
-\code{max(30, 10*n^(2/9))}}
+\code{max(30 * m, 10*m*(n/m)^(2/9))}, where m is the subset numbers.}
 
 \item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.}
 

@@ -18,7 +18,6 @@
 #' @param SNR    A number of "signal to noise" ratio: the ratio of standard deviation of signal to noise.
 #' @param signal A number about amplitude in response value of "DJ" method.
 #' @param seed   A number of base of random seed.
-#' @param test   A boolean. If \code{TRUE}, set random seeds.
 #'
 #'
 #' @return       A list contains generated \code{x, y, v}.
@@ -35,10 +34,10 @@
 #' @export
 #'
 gen.simu.data <- function(nobs = 1024, genMethod = "1dfan", SNR = 7, signal = 7,
-                          seed = 123, test = FALSE){
+                          seed = NULL){
 
-  # if test, set random seed.
-  if(test == TRUE){
+  # if not test, set random seed.
+  if(is.null(seed) == FALSE){
     set.seed(seed)
   }
 
@@ -62,10 +61,10 @@ gen.simu.data <- function(nobs = 1024, genMethod = "1dfan", SNR = 7, signal = 7,
   }
 
   # generate y: add Gussian noise into signal, y = v + err
-  if(test == TRUE){
-    y <- add.noise(v, SNR = SNR, seed = seed)
+  if(is.null(seed) == TRUE){
+    y <- add.noise(v, SNR = SNR, seed = 123)
   }else{
-    y <- add.noise(v, SNR = SNR, seed = NULL)
+    y <- add.noise(v, SNR = SNR, seed = seed)
   }
 
   # return x, y(withnoise), v(without noise)
