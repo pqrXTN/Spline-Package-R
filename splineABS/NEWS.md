@@ -11,5 +11,13 @@
 * Modify function `adap.ssanova` and `compare.mse` for the use of `find.bounday`.
 
 
+## splineABS 0.1.2
+
+### Improvements
+
+* New function `gen.subset` and `adap.divide.ssanova`: 
+  Do ABSspline in subsets and average the fitting value.
+  
+* Modify function `adap.sampling`; add new features in sampling with subsets.
 
 

@@ -4,14 +4,16 @@
 \alias{generate.subset}
 \title{Generate sampling basis in each subset}
 \usage{
-generate.subset(y, sample.index, subset.number = 1)
+generate.subset(N, sample.index, subset.number = 1, ratio = NULL)
 }
 \arguments{
-\item{y}{The response value in spline.}
+\item{N}{The number of whole smaples.}
 
 \item{sample.index}{The indices of samples.}
 
 \item{subset.number}{The number of subsets.}
+
+\item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
 }
 \value{
 A list contains two vectors. The indices of samples and basis in each subset.

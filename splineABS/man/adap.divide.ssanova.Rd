@@ -4,8 +4,8 @@
 \alias{adap.divide.ssanova}
 \title{Do adaptive sampling smoothing spline with method of "divide and conquer".}
 \usage{
-adap.divide.ssanova(x, y, subsetNumber = 1, alpha = NULL, nbasis = NULL,
-  nslice = 10, sliceMethod = NULL, splineFormula = NULL,
+adap.divide.ssanova(x, y, subsetNumber = 1, ratio = NULL, alpha = NULL,
+  nbasis = NULL, nslice = 10, sliceMethod = NULL, splineFormula = NULL,
   moreSample = TRUE, pred = TRUE, predAverage = TRUE,
   calculateTime = FALSE)
 }
@@ -14,6 +14,8 @@ adap.divide.ssanova(x, y, subsetNumber = 1, alpha = NULL, nbasis = NULL,
 (But now, we just realize vector part)}
 
 \item{y}{A vector of response varibles with noise}
+
+\item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
 
 \item{alpha}{A number of modifying minimizing GCV in \code{gss::ssanova}. Default = NULL (-1).}
 
@@ -30,7 +32,7 @@ The number of slices depends on the method.}
 
 \item{pred}{A boolean whether return predition value or list of models.}
 
-\item{predAverage}{A boolean whether predition an average of all subsets models. 
+\item{predAverage}{A boolean whether predition an average of all subsets models.
 If \code{FALSE}, do not avearage, return the each predition.}
 
 \item{calculateTime}{A boolean whether calculate time of fitting model.}
