@@ -21,3 +21,15 @@
 * Modify function `adap.sampling`; add new features in sampling with subsets.
 
 
+## splineABS 0.1.3
+
+### Improvements
+
+* Modify function `gen.subset`. Now, it can return a list of indices in each subsets without input of `sample.index`.
+
+## splineABS 0.1.4
+
+### Improvements
+
+* Modify function `gen.subset`, `adap.divide.ssanova`, `adap.ssanova`.
+  Now, every subset in ABSpline shares the same basis. Copy basis into each subsets to to garentee this. The modified functions are adapted for this change.

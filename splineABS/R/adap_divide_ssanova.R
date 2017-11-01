@@ -29,10 +29,10 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
                                 predAverage = TRUE, calculateTime = FALSE){
 
   if(moreSample == TRUE) {
-    samples.index <- adap.sample(x, y, nbasis=nbasis, nslice=nslice,
+    basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice,
                                  sliceMethod=sliceMethod, subsetNumber )
   }else{
-    samples.index <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
+    basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
   }
 
 
@@ -51,19 +51,19 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
   rm(formula.and.df)
 
   # get index of elements in each subset and the sampling baisi in each subset
-  subset.sampleAndIndex <- generate.subset(length(y), samples.index, subsetNumber, ratio = ratio)
+  subsetElementAndBasis <- generate.subset(length(y), basisIndex, subsetNumber, ratio = ratio)
 
-  subset.index <- subset.sampleAndIndex[[1]]
-  subset.sample.index <- subset.sampleAndIndex[[2]]
+  subsetElementIndex <- subsetElementAndBasis[[1]]
+  basisIndexInSubset <- subsetElementAndBasis[[2]]
 
 
   # if calculateTime == FALSE, print the value instead of return it.
   if(calculateTime == FALSE){
-    cat("The number of samples ", length(samples.index), "\n")
+    cat("The number of samples ", length(basisIndex), "\n")
   }
 
 
-  rm(subset.sampleAndIndex)
+  rm(subsetElementAndBasis)
 
   # fit model in each subset and get predict value
   # do fit model by ssanova in package: "gss"
@@ -73,12 +73,13 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
 
   for(i in 1:subsetNumber){
 
+    # fit each subset model with global basis(but local basis indices) and local data
     if(is.null(alpha)){
-      fitModel[[i]] <- gss::ssanova(spline.formula, data = xy.df,
-                                    id.basis = subset.sample.index[[i]])
+      fitModel[[i]] <- gss::ssanova(spline.formula, data = xy.df[subsetElementIndex[[i]], ],
+                                    id.basis = basisIndexInSubset[[i]])
     }else{
-      fitModel[[i]] <- gss::ssanova(spline.formula, data = xy.df,
-                                    id.basis = subset.sample.index[[i]], alpha=alpha)
+      fitModel[[i]] <- gss::ssanova(spline.formula, data = xy.df[subsetElementIndex[[i]], ],
+                                    id.basis = basisIndexInSubset[[i]], alpha=alpha)
     }
   }
 
@@ -91,7 +92,7 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
   # if "predSubsetModel == TRUE",
   if(pred == TRUE){
     for(i in 1:subsetNumber){
-      est[,i] <- predict(fitModel[[i]],  newdata = xy.df[,1:x.dim, drop=FALSE],
+      est[,i] <- predict(fitModel[[i]],  newdata = xy.df[ ,1:x.dim, drop=FALSE],
                          se.fit = TRUE)$fit
       est.ave <- apply(est, 1, mean)
     }

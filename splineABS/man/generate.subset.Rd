@@ -4,24 +4,44 @@
 \alias{generate.subset}
 \title{Generate sampling basis in each subset}
 \usage{
-generate.subset(N, sample.index, subset.number = 1, ratio = NULL)
+generate.subset(N, basis.index = NULL, subset.number = 1, ratio = NULL)
 }
 \arguments{
 \item{N}{The number of whole smaples.}
 
-\item{sample.index}{The indices of samples.}
+\item{basis.index}{The indices of samples. It could be NULL.}
 
 \item{subset.number}{The number of subsets.}
 
 \item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
 }
 \value{
-A list contains two vectors. The indices of samples and basis in each subset.
+A list contains two lists named as \code{subsetElementIndex}, \code{basisIndexInSubset}.
+\itemize{
+  \item \code{subsetElementIndex}: The global indices(global location) of each subset's elements in whole data.
+  \item \code{basisIndexInSubset} The local indices(local location) of basis in each subset.
+  \item remark: global means the location in whole data; local means the location in each subset.
+}
 }
 \description{
-The subsets is divied randomly and evenly. Return a list of indices of samples and indices basis in each subset.
+The subsets is divied randomly and evenly.
+  Return a list of indices of samples and indices basis in each subset.
 }
 \examples{
-generate.subset(y = 1:10, sample.index = c(1,3,5), subset.number = 2)
+> generate.subset(20, basis.index = c(1,6, 11,16), subset.number = 2)
+$subsetElementIndex
+$subsetElementIndex[[1]]
+[1]  1  2  3  5  6  7  9 11 12 13 14 16 18
+
+$subsetElementIndex[[2]]
+[1]  1  4  6  8 10 11 15 16 17 19 20
+
+
+$basisIndexInSubset
+$basisIndexInSubset[[1]]
+[1]  1  5  8 12
+
+$basisIndexInSubset[[2]]
+[1] 1 3 6 8
 
 }

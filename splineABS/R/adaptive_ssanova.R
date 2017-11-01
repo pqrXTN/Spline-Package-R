@@ -54,7 +54,7 @@ adap.ssanova <- function(x, y, alpha=NULL, nbasis=NULL, nslice=10, sliceMethod=N
                          plotFit = FALSE){
 
   # do adaptive sampling
-  samples.index <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
+  basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
 
   # In case the x is a matirx or data.frame(>=2D) instead of a vector(1D)
   # generate a string of spline formula and a data.frame containing x and y
@@ -74,9 +74,9 @@ adap.ssanova <- function(x, y, alpha=NULL, nbasis=NULL, nslice=10, sliceMethod=N
   t0 <- proc.time()
 
   if(is.null(alpha)){
-    fitModel <- gss::ssanova(spline.formula, data = xy.df, id.basis=samples.index)
+    fitModel <- gss::ssanova(spline.formula, data = xy.df, id.basis=basisIndex)
   }else{
-    fitModel <- gss::ssanova(spline.formula, data = xy.df, id.basis=samples.index, alpha=alpha)
+    fitModel <- gss::ssanova(spline.formula, data = xy.df, id.basis=basisIndex, alpha=alpha)
   }
 
   if(calculateTime == TRUE){
@@ -86,13 +86,13 @@ adap.ssanova <- function(x, y, alpha=NULL, nbasis=NULL, nslice=10, sliceMethod=N
 
   # plot if required
   if((plotFit == TRUE) &(x.dim == 1)){
-    fit.plot(x = x, y = y, sampleIndex=samples.index, fitModel=fitModel,
+    fit.plot(x = x, y = y, sampleIndex=basisIndex, fitModel=fitModel,
              figTitle="scatter and smoothing spline")
   }
 
   # return model or model and index of samples
   if(returnIndex == TRUE){
-    return(list(fitModel = fitModel, sampleIndex = samples.index))
+    return(list(fitModel = fitModel, sampleIndex = basisIndex))
   }else{
     return(fitModel)
   }

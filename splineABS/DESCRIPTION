@@ -1,10 +1,10 @@
 Package: splineABS
 Type: Package
 Title: Do smoothing splines via adaptive basis sampling
-Version: 0.1.2
+Version: 0.1.4
 Author@R: person("Tianning", "Xu", email = "xutn1995@gmail.com", role = c("aut", "cre"))
 Maintainer: Tianning Xu <xutn1995@gmail.com>
-Description: A package on smoothing splines with adaptive basis sampling. 
+Description: A package on smoothing splines with adaptive basis sampling. Now, distributed computation in ABSspline is also available.
   Reduce computatioal complexity by sampling basis functions rather than using full samples.
   This package also provides functions generating simulation data for test.
 Imports:
