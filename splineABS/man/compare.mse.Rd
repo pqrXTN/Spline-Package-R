@@ -30,7 +30,7 @@ compare.mse(x = NULL, y = NULL, v = NULL, genMethod = NULL,
 alpha = 1 indicates using unmodified cross validation to determine lambda.}
 
 \item{nbasis}{A number of approximate sample size. If it is \code{NULL}, the number would be
-\code{max(30 * m, 10*m*(n/m)^(2/9))}, where m is the subset numbers.}
+\code{max(30, 10*(n)^(2/9))}.}
 
 \item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.}
 

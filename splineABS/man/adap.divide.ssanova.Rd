@@ -6,8 +6,7 @@
 \usage{
 adap.divide.ssanova(x, y, subsetNumber = 1, ratio = NULL, alpha = NULL,
   nbasis = NULL, nslice = 10, sliceMethod = NULL, splineFormula = NULL,
-  moreSample = TRUE, pred = TRUE, predAverage = TRUE,
-  calculateTime = FALSE)
+  pred = TRUE, predAverage = TRUE, calculateTime = FALSE)
 }
 \arguments{
 \item{x}{A vector (or a matrix or data.frame) of independent varibles.
@@ -38,9 +37,6 @@ If \code{FALSE}, do not avearage, return the each predition.}
 \item{calculateTime}{A boolean whether calculate time of fitting model.}
 
 \item{susetNumber}{A number of subsets. (Denote as m).}
-
-\item{moreSampling}{A boolean whether sample more basis function in adaptive sampling.
-If \code{TRUE}, nbasis = max(30*m, 10*m*(N/m)^(2/9)).}
 }
 \value{
 A list contains one or two items as below (depends on parameters):

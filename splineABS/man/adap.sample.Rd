@@ -4,23 +4,19 @@
 \alias{adap.sample}
 \title{Adaptive sampling}
 \usage{
-adap.sample(x, y, nbasis = NULL, nslice = 11, sliceMethod = NULL,
-  subsetNumber = 1)
+adap.sample(x, y, nbasis = NULL, nslice = 11, sliceMethod = NULL)
 }
 \arguments{
 \item{y}{A vecotr of response value.}
 
 \item{nbasis}{A number of approximate sample size. If it is \code{NULL}, the number would be
-\code{max(30 * m, 10*m*(n/m)^(2/9))}, where m is the subset numbers.}
+\code{max(30, 10*(n)^(2/9))}.}
 
 \item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.}
 
 \item{sliceMethod}{A string of slice method among "Scott", "Sturges", "FD"(Freddman and Diaconis).
 The default is \code{NULL} (NULL is not a string).
 The number of slices depends on the method in function: \code{\link[stats]{hist}}.}
-
-\item{subsetNumber}{A number of subsets in method "Divid and Conquer". 
-If >1 generate more samples.}
 }
 \value{
 A vector of index of selected samples in \code{y}.

@@ -4,8 +4,6 @@
 #'
 #' @param susetNumber  A number of subsets. (Denote as m).
 #' @param ratio         A vector of the ratio of size of each subset. Default is equal.
-#' @param moreSampling A boolean whether sample more basis function in adaptive sampling.
-#'                     If \code{TRUE}, nbasis = max(30*m, 10*m*(N/m)^(2/9)).
 #' @param pred         A boolean whether return predition value or list of models.
 #' @param predAverage  A boolean whether predition an average of all subsets models.
 #'                     If \code{FALSE}, do not avearage, return the each predition.
@@ -25,16 +23,11 @@
 #'
 adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL, nbasis=NULL,
                                 nslice=10, sliceMethod=NULL,
-                                splineFormula = NULL, moreSample = TRUE, pred = TRUE,
+                                splineFormula = NULL,  pred = TRUE,
                                 predAverage = TRUE, calculateTime = FALSE){
 
-  if(moreSample == TRUE) {
-    basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice,
-                                 sliceMethod=sliceMethod, subsetNumber )
-  }else{
-    basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice, sliceMethod=sliceMethod)
-  }
-
+  basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice,
+                                 sliceMethod=sliceMethod)
 
   # In case the x is a matirx or data.frame(>=2D) instead of a vector(1D)
   # generate a string of spline formula and a data.frame containing x and y

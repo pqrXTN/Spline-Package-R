@@ -31,5 +31,7 @@
 
 ### Improvements
 
-* Modify function `gen.subset`, `adap.divide.ssanova`, `adap.ssanova`.
+* Modify function `gen.subset`, `adap.divide.ssanova`, `adap.ssanova`, `adap.sampling`.
   Now, every subset in ABSpline shares the same basis. Copy basis into each subsets to to garentee this. The modified functions are adapted for this change.
+  
+* When fitting model, each subset uses global basis and local data.
