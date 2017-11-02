@@ -3,33 +3,36 @@
 #' @description  Return a list of x and y value generating by 1D FanGijbels function.
 #'
 #' @param susetNumber  A number of subsets. (Denote as m).
-#' @param ratio         A vector of the ratio of size of each subset. Default is equal.
+#' @param subsetElementIndex A list of indices of each subset's element in whole data.
+#'                     Default = NULL, randomly generate subsets.
+#' @param ratio        A vector of the ratio of size of each subset. Default is equal.
 #' @param pred         A boolean whether return predition value or list of models.
 #' @param predAverage  A boolean whether predition an average of all subsets models.
 #'                     If \code{FALSE}, do not avearage, return the each predition.
-#' @param calculateTime A boolean whether calculate time of fitting model.
 #' @inheritParams adap.ssanova
 #'
-#' @return       A list contains one or two items as below (depends on parameters):
+#' @return       A list contains two items as below :
 #' \itemize{
-#'   \item A number of fitting time of all subset models.
-#'   \item An N*1 vector of preditions of average model (the average value of all subset models.)
-#'   \item An N*m matrix of preditions of each subset model.
-#'   \item An list of m fitted models on each subset.
+#'   \item (all)A number of fitting time of all subset models.
+#'   \item (predAverage = TRUE)An N*1 vector of preditions of average model (the average value of all subset models.)
+#'   \item (pred = TRUE)An N*m matrix of preditions of each subset model.
+#'   \item (pred = FALSE)An list of m fitted models on each subset.
 #' }
 #'
 #' @import stats
 #' @export
 #'
-adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL, nbasis=NULL,
-                                nslice=10, sliceMethod=NULL,
+adap.divide.ssanova <- function(x, y, subsetNumber = 1, subsetElementIndex = NULL,
+                                ratio = NULL, alpha = NULL, nbasis=NULL,
+                                nslice = 10, sliceMethod = NULL,
                                 splineFormula = NULL,  pred = TRUE,
-                                predAverage = TRUE, calculateTime = FALSE){
+                                predAverage = TRUE){
 
+  # generate random ABS basis
   basisIndex <- adap.sample(x, y, nbasis=nbasis, nslice=nslice,
                                  sliceMethod=sliceMethod)
 
-  # In case the x is a matirx or data.frame(>=2D) instead of a vector(1D)
+  # If x is a matirx or data.frame(>=2D) instead of a vector(1D)
   # generate a string of spline formula and a data.frame containing x and y
   #
   ## x.dim is the number of columns of matrix x
@@ -43,19 +46,13 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
   }
   rm(formula.and.df)
 
-  # get index of elements in each subset and the sampling baisi in each subset
-  subsetElementAndBasis <- generate.subset(length(y), basisIndex, subsetNumber, ratio = ratio)
-
+  # get index of elements in each subset and the sampling basis in each subset.
+  # if subsetElementIndex != NULL, firstly generate random subsets according to ratio.
+  # copy basis into each subsets to garantee that each subsets shares the same basis.
+  subsetElementAndBasis <- generate.subset(length(y), basisIndex, subsetNumber,
+                                           ratio = ratio, subset.element.index = subsetElementIndex)
   subsetElementIndex <- subsetElementAndBasis[[1]]
   basisIndexInSubset <- subsetElementAndBasis[[2]]
-
-
-  # if calculateTime == FALSE, print the value instead of return it.
-  if(calculateTime == FALSE){
-    cat("The number of samples ", length(basisIndex), "\n")
-  }
-
-
   rm(subsetElementAndBasis)
 
   # fit model in each subset and get predict value
@@ -76,9 +73,8 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
     }
   }
 
-  ## record time for fitting model
+  # record time for fitting model
   fitTime <- proc.time()[3] - t0[3]
-  # cat("time spent on fitting model: ", fitTime, '\n')
 
   # if there is a need for prediction,
   # predict the average of fitted value of all subset models
@@ -89,23 +85,15 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, ratio = NULL, alpha=NULL
                          se.fit = TRUE)$fit
       est.ave <- apply(est, 1, mean)
     }
-    if(predAverage == TRUE){
-      if(calculateTime == TRUE){
-        return(list(est.ave=est.ave, fitTime=fitTime))
-      }else{
-        return(est.ave)
-      }
 
+    if(predAverage == TRUE){
+      return(list(est.ave=est.ave, fitTime=fitTime))
     }else{
-      if(calculateTime == TRUE){
-        return(list(est=est, fitTime=fitTime))
-      }else{
-        return(est)
-      }
-      return(est)
+      return(list(est=est, fitTime=fitTime))
     }
 
+  # do not predict, just return a list of subset models.
   }else{
-    return(fitModel)
+    return(list(fitModel=fitModel, fitTime=fitTime))
   }
 }

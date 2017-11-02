@@ -4,15 +4,19 @@
 \alias{adap.divide.ssanova}
 \title{Do adaptive sampling smoothing spline with method of "divide and conquer".}
 \usage{
-adap.divide.ssanova(x, y, subsetNumber = 1, ratio = NULL, alpha = NULL,
-  nbasis = NULL, nslice = 10, sliceMethod = NULL, splineFormula = NULL,
-  pred = TRUE, predAverage = TRUE, calculateTime = FALSE)
+adap.divide.ssanova(x, y, subsetNumber = 1, subsetElementIndex = NULL,
+  ratio = NULL, alpha = NULL, nbasis = NULL, nslice = 10,
+  sliceMethod = NULL, splineFormula = NULL, pred = TRUE,
+  predAverage = TRUE)
 }
 \arguments{
 \item{x}{A vector (or a matrix or data.frame) of independent varibles.
 (But now, we just realize vector part)}
 
 \item{y}{A vector of response varibles with noise}
+
+\item{subsetElementIndex}{A list of indices of each subset's element in whole data.
+Default = NULL, randomly generate subsets.}
 
 \item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
 
@@ -34,17 +38,15 @@ The number of slices depends on the method.}
 \item{predAverage}{A boolean whether predition an average of all subsets models.
 If \code{FALSE}, do not avearage, return the each predition.}
 
-\item{calculateTime}{A boolean whether calculate time of fitting model.}
-
 \item{susetNumber}{A number of subsets. (Denote as m).}
 }
 \value{
-A list contains one or two items as below (depends on parameters):
+A list contains two items as below :
 \itemize{
-  \item A number of fitting time of all subset models.
-  \item An N*1 vector of preditions of average model (the average value of all subset models.)
-  \item An N*m matrix of preditions of each subset model.
-  \item An list of m fitted models on each subset.
+  \item (all)A number of fitting time of all subset models.
+  \item (predAverage = TRUE)An N*1 vector of preditions of average model (the average value of all subset models.)
+  \item (pred = TRUE)An N*m matrix of preditions of each subset model.
+  \item (pred = FALSE)An list of m fitted models on each subset.
 }
 }
 \description{

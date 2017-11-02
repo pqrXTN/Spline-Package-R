@@ -4,14 +4,18 @@
 \alias{generate.subset}
 \title{Generate sampling basis in each subset}
 \usage{
-generate.subset(N, basis.index = NULL, subset.number = 1, ratio = NULL)
+generate.subset(N, basis.index = NULL, subset.number = 1,
+  subset.element.index = NULL, ratio = NULL)
 }
 \arguments{
 \item{N}{The number of whole smaples.}
 
-\item{basis.index}{The indices of samples. It could be NULL.}
+\item{basis.index}{The indices of samples in whole data. It could be NULL.}
 
 \item{subset.number}{The number of subsets.}
+
+\item{subset.element.index}{A list of indices of each subset's element in whole data.
+If NULL, randomly generate subsets.}
 
 \item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
 }
@@ -28,7 +32,7 @@ The subsets is divied randomly and evenly.
   Return a list of indices of samples and indices basis in each subset.
 }
 \examples{
-> generate.subset(20, basis.index = c(1,6, 11,16), subset.number = 2)
+> generate.subset(20, basis.index = c(1,6,11,16), subset.number = 2)
 $subsetElementIndex
 $subsetElementIndex[[1]]
 [1]  1  2  3  5  6  7  9 11 12 13 14 16 18
@@ -36,12 +40,28 @@ $subsetElementIndex[[1]]
 $subsetElementIndex[[2]]
 [1]  1  4  6  8 10 11 15 16 17 19 20
 
-
 $basisIndexInSubset
 $basisIndexInSubset[[1]]
 [1]  1  5  8 12
 
 $basisIndexInSubset[[2]]
 [1] 1 3 6 8
+
+
+> generate.subset(10, basis.index = c(1,2,6,7), subset.number = 2,
+    subset.element.index =list(1:5, 6:10))
+$subsetElementIndex
+$subsetElementIndex[[1]]
+[1] 1 2 3 4 5 6 7
+
+$subsetElementIndex[[2]]
+[1]  1  2  6  7  8  9 10
+
+$basisIndexInSubset
+$basisIndexInSubset[[1]]
+[1] 1 2 6 7
+
+$basisIndexInSubset[[2]]
+[1] 1 2 3 4
 
 }
