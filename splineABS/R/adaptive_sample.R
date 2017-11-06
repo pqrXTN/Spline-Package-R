@@ -3,12 +3,15 @@
 #' @description  Do adaptive sampling depending on y value
 #'
 #' @param y       A vecotr of response value.
-#' @param nbasis  A number of approximate sample size. If it is \code{NULL}, the number would be
-#'                \code{max(30, 10*(n)^(2/9))}.
-#' @param nslice  A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.
-#' @param sliceMethod A string of slice method among "Scott", "Sturges", "FD"(Freddman and Diaconis).
+#' @param nbasis  A number of approximate sample size. If it is \code{NULL},
+#'                the number would be \code{max(30, 10*(n)^(2/9))}.
+#' @param nslice  A number of slices numbers. If \code{sliceMethod} is not
+#'                \code{NULL}, it will be invaid.
+#' @param sliceMethod A string of slice method among "Scott", "Sturges",
+#'                    "FD"(Freddman and Diaconis).
 #'                    The default is \code{NULL} (NULL is not a string).
-#'                    The number of slices depends on the method in function: \code{\link[stats]{hist}}.
+#'                    The number of slices depends on the method in function:
+#'                    \code{\link[stats]{hist}}.
 #'
 #' @return A vector of index of selected samples in \code{y}.
 #'
@@ -29,7 +32,8 @@
 adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
 
   # initiate a set of sampling index
-  # sampling set initially includes the minimum and maximum, and the boundary points of x
+  # sampling set initially includes the minimum and maximum, and the boundary
+  # points of x
   nobs <- length(y)
 
   sample.index <- c(find.boundary(x), which.min(y), which.max(y))
@@ -61,8 +65,8 @@ adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
       slice.index <- which(y.slice[i] <= y & y <= y.slice[i+1])
     }
 
-
-    # If the size of a slice is less than nobs.slice, we take all members in rather than sampling.
+    # If the size of a slice is less than nobs.slice, we take all members in
+    # rather than sampling.
     if(length(slice.index) >= nobs.slice){
       sample.index <- union(sample.index, sample(slice.index, nobs.slice))
     }else{

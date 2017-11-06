@@ -8,7 +8,7 @@ fit.plot(x, y, v = NULL, sampleIndex = NULL, fitModel = NULL,
   figTitle = "Figure")
 }
 \arguments{
-\item{x}{A vector (or a matrix) of independent varibles. (But now, we just realize vector part)}
+\item{x}{A vector (or a matrix) of independent varibles.}
 
 \item{y}{A vector of response varibles with noise.}
 
@@ -23,10 +23,13 @@ fit.plot(x, y, v = NULL, sampleIndex = NULL, fitModel = NULL,
 }
 \description{
 \itemize{
-  \item Plot in one graph of original data without noise(if there is), data with noise, fitted data.
-  \item When fitted model is given, generate 10 times unif points to plot a smoothing curve.
+  \item Plot in one graph of original data without noise(if there is),
+    data with noise, fitted data.
+  \item When fitted model is given, generate 10 times unif points to plot
+    a smoothing curve.
   \item \strong{Attetion}: x and y shoule be vector(Just plot a 2D figure).
-    The varible name in model must exact be "x" and "y", or it would be error in \code{predict}.
+    The varible name in model must exact be "x" and "y", or it would be
+    error in \code{predict}.
     (generate 10 times points by \code{predict} to plot a smoothing curve)
 }
 }

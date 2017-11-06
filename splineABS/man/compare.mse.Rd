@@ -17,76 +17,89 @@ compare.mse(x = NULL, y = NULL, v = NULL, genMethod = NULL,
 
 \item{v}{A vector of response varibles of true value (without noise).}
 
-\item{genMethod}{A string of data generating method among "1dfan", "DJ.blocks", "DJ.bumps",
-"DJ.heavi", "DJ.doppler".}
+\item{genMethod}{A string of data generating method among "1dfan",
+"DJ.blocks", "DJ.bumps", "DJ.heavi", "DJ.doppler".}
 
 \item{signal}{A number about amplitude in response value of "DJ" method.}
 
 \item{nobs}{A number of observations in simulation.}
 
-\item{SNR}{A number of "signal to noise" ratio: the ratio of standard deviation of signal to noise.}
+\item{SNR}{A number of "signal to noise" ratio: the ratio of standard
+deviation of signal to noise.}
 
-\item{alpha}{A number of modifying minimizing GCV in \code{ssanova} of package \code{[gss]{ssanova}}.
-alpha = 1 indicates using unmodified cross validation to determine lambda.}
+\item{alpha}{A number of modifying minimizing GCV in \code{ssanova} of
+package \code{[gss]{ssanova}}. alpha = 1 indicates using
+unmodified cross validation to determine lambda.}
 
-\item{nbasis}{A number of approximate sample size. If it is \code{NULL}, the number would be
-\code{max(30, 10*(n)^(2/9))}.}
+\item{nbasis}{A number of approximate sample size. If it is \code{NULL},
+the number would be \code{max(30, 10*(n)^(2/9))}.}
 
-\item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.}
+\item{nslice}{A number of slices numbers. If \code{sliceMethod} is not
+\code{NULL}, it will be invaid.}
 
-\item{sliceMethod}{A string of slice method among "Scott", "Sturges", "FD"(Freddman and Diaconis).
+\item{sliceMethod}{A string of slice method among "Scott", "Sturges",
+"FD"(Freddman and Diaconis).
 The default is \code{NULL} (NULL is not a string).
-The number of slices depends on the method in function: \code{\link[stats]{hist}}.}
+The number of slices depends on the method in function:
+\code{\link[stats]{hist}}.}
 
-\item{splineFormula}{A string of formula of spline function. See more description in details.}
+\item{splineFormula}{A string of formula of spline function. See more description
+in details.}
 
 \item{times}{An integer number of how many times we repeat sampling.}
 
 \item{plotBox}{A boolean of whether plot a box-plot of MSE.}
 
-\item{calTime}{A boolean of whether returns the average fitting time of splines of each method.}
+\item{calTime}{A boolean of whether returns the average fitting time of
+splines of each method.}
 
 \item{seed}{A number of random seed. Default is NULL.}
 
-\item{printIter}{A boolean whether printout the current iteration when testing.}
+\item{printIter}{A boolean if print out the current iteration when testing.}
 
-\item{plotFit}{A boolean whether plot the original data, noise data, and fitted splines in last iteration.}
+\item{plotFit}{A boolean if plot the original data, noise data, and
+fitted splines in last iteration.}
 }
 \value{
 A data.frame of MSE of three methods.
 
-        If required output time for fitting, return a list of a data.frame of MSE
-        and a data.frame of consuming time.
+        If required output time for fitting, return a list of a data.frame
+        of MSE and a data.frame of consuming time.
 }
 \description{
 Compare mse and running time of spline via Full, UBS and ABS method.
-  If required, plot box.plot of MSE of all iteration or fited cure in last iteration.
+  If required, plot box.plot of MSE of all iteration or fited cure in last
+  iteration.
 }
 \details{
-Run n times of spline model based on Full samples, unif sampling and adaptive sampling.
-  Compare the mse, time consuming of each method, if need, plot a boxplot or plot 4 fitted plot.
+Run n times of spline model based on Full samples, unif sampling and
+  adaptive sampling. Compare the mse, time consuming of each method;
+  if need, plot a boxplot or plot 4 fitted plot.
 
-  The fitting of smoothing spline model with Gaussian noise is based on package \code{gss}.
+  The fitting of smoothing spline model with Gaussian noise is based on
+  package \code{gss}.
 
   If x is a matrix, generate a data.frame of x & y;
-  generate string of formular for high demesion like(if \code{splineFormula == NULL}):
-     \code{"y ~ x1 * x2 * ... * xn"}.
-  Do not plot if x is a matrix, since we cannot plot when dimension is more than 2.
+  generate string of formular for high demesion like(if \code{splineFormula
+  == NULL}): \code{"y ~ x1 * x2 * ... * xn"}.
+  Do not plot if x is a matrix, since we cannot plot when dimension is more
+  than 2.
 
   In parameter \code{splineFormula}, default is \code{NULL}.
   \itemize{
     \item If x is 1D, default is \code{"y~x"};
     \item If x is mD, default is \code{"y ~ x1*x2*... *xm"}.
-    \item \code{"1 +x1 + x2"} stands for:      c + f1(x1) + f2(x2);
-    \item \code{"1 + x1 + x1:x2"} stands for:  c + f1(x1) + f12(x1,x2);
-    \item \code{"1 + x1*x2"} stands for:       c + f1(x1) + f2(x2) + f12(x1,x2);
+    \item \code{"1 +x1 + x2"} stands for: c + f1(x1) + f2(x2);
+    \item \code{"1 + x1 + x1:x2"} stands for: c + f1(x1) + f12(x1,x2);
+    \item \code{"1 + x1*x2"} stands for: c + f1(x1) + f2(x2) + f12(x1,x2);
     \item etc.
   }
 }
 \examples{
 # use simulation data of "1dfan", get slice by "Scott" method.
 # run 10 times in iteration.
-compare.mse(genMethod = "1dfan", nobs = 1024, sliceMethod = "Scott", times = 10)
+compare.mse(genMethod = "1dfan", nobs = 1024, sliceMethod = "Scott",
+            times = 10)
 
 }
 \seealso{

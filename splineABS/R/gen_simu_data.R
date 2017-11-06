@@ -1,9 +1,11 @@
 #' @title Generate 1D Fan-Gijbels simulation data
 #'
-#' @description  Return a list of x and y value generating by 1D FanGijbels function.
+#' @description  Return a list of x and y value generating by 1D FanGijbels
+#'   function.
 #'
 #' @details
-#'   In \code{genMethod}: "DJ" stands for functions in Donoho and Johnstone(1994).
+#'   In \code{genMethod}: "DJ" stands for functions in Donoho and
+#'   Johnstone(1994).
 #'
 #'   The return value of function is a list of \code{x, y, z}.
 #' \itemize{
@@ -13,9 +15,10 @@
 #' }
 #'
 #' @param nobs   A number of observations in simulation.
-#' @param genMethod A string of data generating method among "1dfan", "DJ.blocks", "DJ.bumps",
-#'   "DJ.heavi", "DJ.doppler".
-#' @param SNR    A number of "signal to noise" ratio: the ratio of standard deviation of signal to noise.
+#' @param genMethod A string of data generating method among "1dfan",
+#'   "DJ.blocks", "DJ.bumps", "DJ.heavi", "DJ.doppler".
+#' @param SNR    A number of "signal to noise" ratio: the ratio of standard
+#'   deviation of signal to noise.
 #' @param signal A number about amplitude in response value of "DJ" method.
 #' @param seed   A number of base of random seed.
 #'
@@ -28,8 +31,10 @@
 #' data.xyv <- gen.simu.data(nobs = 1024, genMethod = "DJ.blocks", SNR = 7)
 #'
 #' @seealso
-#'   4 kinds of functions of in Donoho and Johnstone(1994) in function: \code{\link{DJ.EX.rand}}.
-#'   add Guassian noise to response varible in function: \code{\link{add.noise}}.
+#'   4 kinds of functions of in Donoho and Johnstone(1994) in function:
+#'   \code{\link{DJ.EX.rand}}.
+#'   Add Guassian noise to response varible in function:
+#'   \code{\link{add.noise}}.
 #' @import stats
 #' @export
 #'

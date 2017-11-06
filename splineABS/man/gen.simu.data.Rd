@@ -10,10 +10,11 @@ gen.simu.data(nobs = 1024, genMethod = "1dfan", SNR = 7, signal = 7,
 \arguments{
 \item{nobs}{A number of observations in simulation.}
 
-\item{genMethod}{A string of data generating method among "1dfan", "DJ.blocks", "DJ.bumps",
-"DJ.heavi", "DJ.doppler".}
+\item{genMethod}{A string of data generating method among "1dfan",
+"DJ.blocks", "DJ.bumps", "DJ.heavi", "DJ.doppler".}
 
-\item{SNR}{A number of "signal to noise" ratio: the ratio of standard deviation of signal to noise.}
+\item{SNR}{A number of "signal to noise" ratio: the ratio of standard
+deviation of signal to noise.}
 
 \item{signal}{A number about amplitude in response value of "DJ" method.}
 
@@ -23,10 +24,12 @@ gen.simu.data(nobs = 1024, genMethod = "1dfan", SNR = 7, signal = 7,
 A list contains generated \code{x, y, v}.
 }
 \description{
-Return a list of x and y value generating by 1D FanGijbels function.
+Return a list of x and y value generating by 1D FanGijbels
+  function.
 }
 \details{
-In \code{genMethod}: "DJ" stands for functions in Donoho and Johnstone(1994).
+In \code{genMethod}: "DJ" stands for functions in Donoho and
+  Johnstone(1994).
 
   The return value of function is a list of \code{x, y, z}.
 \itemize{
@@ -42,6 +45,8 @@ data.xyv <- gen.simu.data(nobs = 1024, genMethod = "DJ.blocks", SNR = 7)
 
 }
 \seealso{
-4 kinds of functions of in Donoho and Johnstone(1994) in function: \code{\link{DJ.EX.rand}}.
-  add Guassian noise to response varible in function: \code{\link{add.noise}}.
+4 kinds of functions of in Donoho and Johnstone(1994) in function:
+  \code{\link{DJ.EX.rand}}.
+  Add Guassian noise to response varible in function:
+  \code{\link{add.noise}}.
 }

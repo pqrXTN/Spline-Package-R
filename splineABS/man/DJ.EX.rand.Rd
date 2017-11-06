@@ -20,7 +20,8 @@ If \code{noisy == FALSE}, \code{rsnr} does not work.}
 \item{plotfn}{A boolean whether plot 4 plots of data.}
 }
 \value{
-A list of 4 vectors of response varibles named "blocks", "bumps", "heavi", "dopper".
+A list of 4 vectors of response varibles named "blocks",
+  "bumps", "heavi", "dopper".
 }
 \description{
 generate 4 kinds of responsive varible based on \code{x}:

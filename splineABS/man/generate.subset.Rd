@@ -14,22 +14,34 @@ generate.subset(N, basis.index = NULL, subset.number = 1,
 
 \item{subset.number}{The number of subsets.}
 
-\item{subset.element.index}{A list of indices of each subset's element in whole data.
-If NULL, randomly generate subsets.}
+\item{subset.element.index}{A list of indices of each subset's element in
+whole data. If NULL, randomly generate subsets.}
 
-\item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
+\item{ratio}{A vector of the ratio of size of each subset. Default = equal.}
 }
 \value{
-A list contains two lists named as \code{subsetElementIndex}, \code{basisIndexInSubset}.
+A list contains two lists named as \code{subsetElementIndex},
+  \code{basisIndexInSubset}.
 \itemize{
-  \item \code{subsetElementIndex}: The global indices(global location) of each subset's elements in whole data.
-  \item \code{basisIndexInSubset} The local indices(local location) of basis in each subset.
-  \item remark: global means the location in whole data; local means the location in each subset.
+  \item \code{subsetElementIndex}: The global indices(global location) of
+    each subset's elements in whole data.
+  \item \code{basisIndexInSubset}: The local indices(local location) of
+    basis in each subset.
+  \item remark: global means the location of each element in whole data;
+    local means the location in each subset.
 }
 }
 \description{
-The subsets is divied randomly and evenly.
-  Return a list of indices of samples and indices basis in each subset.
+Return a list of indices of samples in whole data and indices of basis in
+  each subset. Default: \code{subset.element.index == NULL}, randomly
+  generate subsests equally.
+}
+\details{
+In order to garantee that every subset shares the same basis,
+  each subset would have a copy of whole basis(by operation \code{union}).
+  For example, if the basis are {#1, #2} and if the orginal subsets are
+  {#1, #3, #4}, {#2, #5}, the return subsets would be {#1, #2, #3, #4} ,
+  {#1, #2, #5}.
 }
 \examples{
 > generate.subset(20, basis.index = c(1,6,11,16), subset.number = 2)

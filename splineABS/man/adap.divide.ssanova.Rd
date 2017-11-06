@@ -10,28 +10,32 @@ adap.divide.ssanova(x, y, subsetNumber = 1, subsetElementIndex = NULL,
   predAverage = TRUE)
 }
 \arguments{
-\item{x}{A vector (or a matrix or data.frame) of independent varibles.
-(But now, we just realize vector part)}
+\item{x}{A vector (or a matrix or data.frame) of independent varibles.}
 
-\item{y}{A vector of response varibles with noise}
+\item{y}{A vector of response varibles with noise.}
 
 \item{subsetElementIndex}{A list of indices of each subset's element in whole data.
 Default = NULL, randomly generate subsets.}
 
 \item{ratio}{A vector of the ratio of size of each subset. Default is equal.}
 
-\item{alpha}{A number of modifying minimizing GCV in \code{gss::ssanova}. Default = NULL (-1).}
+\item{alpha}{A number of modifying minimizing GCV in \code{gss::ssanova}.
+Default = NULL (-1).}
 
 \item{nbasis}{A number of approximate sample size in adaptive sample.
-If it is \code{NULL}, the default number is \code{max(30, 10*n^(2/9))}.}
+If it is \code{NULL}, the default number is \code{max(30,
+10*n^(2/9))}.}
 
-\item{nslice}{A number of slices numbers. If \code{sliceMethod} is not \code{NULL}, it will be invaid.}
+\item{nslice}{A number of slices numbers. If \code{sliceMethod} is not
+\code{NULL}, it will be invaid.}
 
-\item{sliceMethod}{A string of slice method among "Scott","Sturges", "FD"(Freddman and Diaconis).
+\item{sliceMethod}{A string of slice method among "Scott","Sturges", "FD"
+(Freddman and Diaconis).
 The default is \code{NULL} (NULL is not a string).
 The number of slices depends on the method.}
 
-\item{splineFormula}{A string of formula of spline function. See more description in details.}
+\item{splineFormula}{A string of formula of spline function. See more
+description in details.}
 
 \item{pred}{A boolean whether return predition value or list of models.}
 
@@ -44,7 +48,8 @@ If \code{FALSE}, do not avearage, return the each predition.}
 A list contains two items as below :
 \itemize{
   \item (all)A number of fitting time of all subset models.
-  \item (predAverage = TRUE)An N*1 vector of preditions of average model (the average value of all subset models.)
+  \item (predAverage = TRUE)An N*1 vector of preditions of average model
+    (the average value of all subset models.)
   \item (pred = TRUE)An N*m matrix of preditions of each subset model.
   \item (pred = FALSE)An list of m fitted models on each subset.
 }

@@ -14,7 +14,8 @@
 #' @return       A list contains two items as below :
 #' \itemize{
 #'   \item (all)A number of fitting time of all subset models.
-#'   \item (predAverage = TRUE)An N*1 vector of preditions of average model (the average value of all subset models.)
+#'   \item (predAverage = TRUE)An N*1 vector of preditions of average model
+#'     (the average value of all subset models.)
 #'   \item (pred = TRUE)An N*m matrix of preditions of each subset model.
 #'   \item (pred = FALSE)An list of m fitted models on each subset.
 #' }
@@ -50,7 +51,8 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, subsetElementIndex = NUL
   # if subsetElementIndex != NULL, firstly generate random subsets according to ratio.
   # copy basis into each subsets to garantee that each subsets shares the same basis.
   subsetElementAndBasis <- generate.subset(length(y), basisIndex, subsetNumber,
-                                           ratio = ratio, subset.element.index = subsetElementIndex)
+                                           ratio = ratio,
+                                           subset.element.index = subsetElementIndex)
   subsetElementIndex <- subsetElementAndBasis[[1]]
   basisIndexInSubset <- subsetElementAndBasis[[2]]
   rm(subsetElementAndBasis)
@@ -63,13 +65,17 @@ adap.divide.ssanova <- function(x, y, subsetNumber = 1, subsetElementIndex = NUL
 
   for(i in 1:subsetNumber){
 
-    # fit each subset model with global basis(but local basis indices) and local data
+    # fit each subset model with global basis(but local basis indices)
+    # and local data
     if(is.null(alpha)){
-      fitModel[[i]] <- gss::ssanova(spline.formula, data = xy.df[subsetElementIndex[[i]], ],
+      fitModel[[i]] <- gss::ssanova(spline.formula,
+                                    data = xy.df[subsetElementIndex[[i]], ],
                                     id.basis = basisIndexInSubset[[i]])
     }else{
-      fitModel[[i]] <- gss::ssanova(spline.formula, data = xy.df[subsetElementIndex[[i]], ],
-                                    id.basis = basisIndexInSubset[[i]], alpha=alpha)
+      fitModel[[i]] <- gss::ssanova(spline.formula,
+                                    data = xy.df[subsetElementIndex[[i]], ],
+                                    id.basis = basisIndexInSubset[[i]],
+                                    alpha=alpha)
     }
   }
 

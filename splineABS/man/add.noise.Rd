@@ -9,7 +9,8 @@ add.noise(v, SNR = 7, seed = NULL)
 \arguments{
 \item{v}{A vector of response value without noise.}
 
-\item{SNR}{A number of "signal to noise" ratio: the ratio of standard deviation of signal to noise.}
+\item{SNR}{A number of "signal to noise" ratio: the ratio of standard
+deviation of signal to noise.}
 
 \item{seed}{A number of random seed. Default is NULL, do not set seed.}
 }
@@ -17,7 +18,7 @@ add.noise(v, SNR = 7, seed = NULL)
 A vector of response varible with noise. \eqn{y = v + e}.
 }
 \description{
-Add Guassian noise to response variable based on SNR(signal to noise ratio).
-  \eqn{y = v + e}.
+Add Guassian noise to response variable based on SNR
+  (signal to noise ratio). \eqn{y = v + e}.
   This is an inner function, not exposed outside.
 }

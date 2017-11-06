@@ -2,15 +2,18 @@
 #'
 #' @description
 #' \itemize{
-#'   \item Plot in one graph of original data without noise(if there is), data with noise, fitted data.
-#'   \item When fitted model is given, generate 10 times unif points to plot a smoothing curve.
+#'   \item Plot in one graph of original data without noise(if there is),
+#'     data with noise, fitted data.
+#'   \item When fitted model is given, generate 10 times unif points to plot
+#'     a smoothing curve.
 #'   \item \strong{Attetion}: x and y shoule be vector(Just plot a 2D figure).
-#'     The varible name in model must exact be "x" and "y", or it would be error in \code{predict}.
+#'     The varible name in model must exact be "x" and "y", or it would be
+#'     error in \code{predict}.
 #'     (generate 10 times points by \code{predict} to plot a smoothing curve)
 #' }
 #'
 #'
-#' @param x           A vector (or a matrix) of independent varibles. (But now, we just realize vector part)
+#' @param x           A vector (or a matrix) of independent varibles.
 #' @param y           A vector of response varibles with noise.
 #' @param v           A vector of response varibles of true value (without noise).
 #' @param sampleIndex A vector of index of selected sample.

@@ -36,3 +36,8 @@
   
 * When fitting model, each subset uses global basis and local data.
 * Allow input subsets instead of randomly genrating them. See function `gen.subset`.
+
+## splineABS 0.1.4
+
+* Fix bugs in `gen.subset`.
+* Limit the # of charaters within 80 of each line. 

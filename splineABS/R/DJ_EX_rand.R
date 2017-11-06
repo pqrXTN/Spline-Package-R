@@ -12,7 +12,8 @@
 #' @param noisy  A boolean whether add noise to model value.
 #' @param plotfn A boolean whether plot 4 plots of data.
 #'
-#' @return       A list of 4 vectors of response varibles named "blocks", "bumps", "heavi", "dopper".
+#' @return       A list of 4 vectors of response varibles named "blocks",
+#'   "bumps", "heavi", "dopper".
 #'
 #' @examples
 #' # genertae data based on x. Amplitude is 7, do not add noise.
