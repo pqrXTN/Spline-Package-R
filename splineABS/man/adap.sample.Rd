@@ -4,7 +4,7 @@
 \alias{adap.sample}
 \title{Adaptive sampling}
 \usage{
-adap.sample(x, y, nbasis = NULL, nslice = 11, sliceMethod = NULL)
+adap.sample(y, nbasis = NULL, nslice = 10, sliceMethod = NULL)
 }
 \arguments{
 \item{y}{A vecotr of response value.}

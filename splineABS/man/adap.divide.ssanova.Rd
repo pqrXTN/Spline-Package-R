@@ -7,7 +7,7 @@
 adap.divide.ssanova(x, y, subsetNumber = 1, subsetElementIndex = NULL,
   ratio = NULL, alpha = NULL, nbasis = NULL, nslice = 10,
   sliceMethod = NULL, splineFormula = NULL, pred = TRUE,
-  predAverage = TRUE)
+  shareBasis = TRUE, uniformSampling = FALSE)
 }
 \arguments{
 \item{x}{A vector (or a matrix or data.frame) of independent varibles.}
@@ -39,19 +39,27 @@ description in details.}
 
 \item{pred}{A boolean whether return predition value or list of models.}
 
-\item{predAverage}{A boolean whether predition an average of all subsets models.
-If \code{FALSE}, do not avearage, return the each predition.}
+\item{shareBasis}{A boolean whether each subset shares the same basis.
+Default = TRUE: all subsets uses the basis in whole data;
+if FALSE: all subsets do adaptive or uniform sampling
+themselves.}
+
+\item{uniformSampling}{A boolean whether use uniform sampling basis in each
+subset. If FALSE, use adptive sampling.
+Require \code{subsetElementIndex != NULL}.}
 
 \item{susetNumber}{A number of subsets. (Denote as m).}
 }
 \value{
-A list contains two items as below :
+A list:
 \itemize{
   \item (all)A number of fitting time of all subset models.
-  \item (predAverage = TRUE)An N*1 vector of preditions of average model
+  \item (pred = TRUE)An N*1 vector of preditions of average model
     (the average value of all subset models.)
   \item (pred = TRUE)An N*m matrix of preditions of each subset model.
   \item (pred = FALSE)An list of m fitted models on each subset.
+  \item subsetElementIndex: the indices of each subset's elements in whole data
+  \item basisIndexInSubset: the indices of basis in each subset
 }
 }
 \description{

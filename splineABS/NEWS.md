@@ -41,3 +41,13 @@
 
 * Fix bugs in `gen.subset`.
 * Limit the # of charaters within 80 of each line. 
+
+## splineABS 0.1.5
+* Fix bugs.
+
+## splineABS 0.1.6
+
+### improvements
+
+* Add function `allocateToSlice`.
+* Totally rewrite the function `adap.sample`. Now, its number of sampling basis exactly equal to nbasis. Deal with some special cases: indivisible of nbasis/nslice; some slices are too small that we need to re-allocate basis into other slices (it could iterate for several times).

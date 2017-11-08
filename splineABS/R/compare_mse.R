@@ -139,7 +139,7 @@ compare.mse <- function(x=NULL, y=NULL, v=NULL, genMethod=NULL, signal=7,
       # get samples of ABS and UBS.
       ## UBS is based on the sample size of ABS, but sampling method is simple
       ## random sampling.
-      sampleIndex.abs <- adap.sample(x, y, nbasis=nbasis, nslice=nslice,
+      sampleIndex.abs <- adap.sample(y=y, nbasis=nbasis, nslice=nslice,
                                      sliceMethod=sliceMethod)
       sampleIndex.ubs <- sample(1:length(y), length(sampleIndex.abs))
 

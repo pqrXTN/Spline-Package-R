@@ -29,22 +29,23 @@
 #'
 #' Get the boundary of x data. \code{\link{find.boundary}}.
 #'
-adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
+adap.sample <- function(y, nbasis=NULL, nslice=10, sliceMethod=NULL){
 
   # initiate a set of sampling index
-  # sampling set initially includes the minimum and maximum, and the boundary
-  # points of x
+  # sampling set initially includes the minimum and maximum
   nobs <- length(y)
 
-  sample.index <- c(find.boundary(x), which.min(y), which.max(y))
+  # try not to find bounds becasue it is not plausible.
+  # sample.index <- c(find.boundary(x), which.min(y), which.max(y))
+  sample.index <- c(which.min(y), which.max(y))
 
   # decide the sampling size and break point of each slice.
   # it depends on `sliceMethod` and `nslice``
   if(!is.null(sliceMethod)){
     y.slice <- hist(y, breaks = sliceMethod, plot = FALSE)$breaks
-    nslice <- length(y.slice)-1
+    nslice  <- length(y.slice) - 1
   }else{
-    nslice <- nslice
+    nslice  <- nslice
     y.slice <- c(seq(min(y), max(y), length = nslice+1))
   }
 
@@ -53,26 +54,76 @@ adap.sample <- function(x, y, nbasis=NULL, nslice=11, sliceMethod=NULL){
     nbasis <- max(30, ceiling(10 * (nobs)^(2/9)))
   }
 
-  nobs.slice <- ceiling(nbasis/nslice)
 
-  # sample in each slice (exclude the maximum since it is inculded initially)
+
+  # sample in each slice
+  ## record the index of slice which has less elemets than required samples.
+
+  residue <- nbasis - 2
+  slice.index <- list()
+
   for(i in 1:(nslice)){
 
     # a rough operation garantee that the last slice includes the upper bounder
-    if(i<nslice){
-      slice.index <- which(y.slice[i] <= y & y <  y.slice[i+1])
+    if(i < nslice){
+      slice.index[[i]] <- which(y.slice[i] <= y & y <  y.slice[i+1])
     }else{
-      slice.index <- which(y.slice[i] <= y & y <= y.slice[i+1])
-    }
-
-    # If the size of a slice is less than nobs.slice, we take all members in
-    # rather than sampling.
-    if(length(slice.index) >= nobs.slice){
-      sample.index <- union(sample.index, sample(slice.index, nobs.slice))
-    }else{
-      sample.index <- union(sample.index, slice.index)
+      slice.index[[i]] <- which(y.slice[i] <= y & y <= y.slice[i+1])
     }
   }
+
+  # record which slice has availble space for new sampling
+  large.slice <- rep(TRUE, nslice)
+
+
+  # deal with min and max
+  slice.index[[1]] <- setdiff(slice.index[[1]], which.min(y))
+  slice.index[[nslice]] <- setdiff(slice.index[[nslice]], which.max(y))
+  if(length(slice.index[[1]]) ==0){
+    large.slice[1] <- FALSE
+  }else if(length(slice.index[[nslice]]) ==0){
+    large.slice[nslice] <- FALSE
+  }
+
+  # record which slice has availble space for new sampling
+  large.slice.index <- c(1:nslice)[large.slice]
+
+  iter <- 1
+
+  # conduct iteration
+  # if could not converge in 10 iterations, stop
+  while(residue > 0 && iter <= 10){
+
+    nslice.new <- sum(large.slice)
+
+    # set the number of basis in each slice as even as possible
+    # if indivisible, choose some "luck" slice to get extra one base.
+    ## use function allocateToSlice in this package
+    nbasis.slice <- allocateToSlice(nelement = residue, nslice = nslice.new)
+
+    for(i in large.slice.index){
+      # If the size of a slice is less than nbasis.slice, we take all members in
+      # rather than sampling.
+      if(length(slice.index[[i]]) >= nbasis.slice[i]){
+        selected.index <- sample(slice.index[[i]], nbasis.slice[i])
+
+      }else{
+        selected.index <- slice.index[[i]]
+        large.slice[i] <- FALSE
+      }
+
+      # record remain space in each slice;
+      #  add select.index into whole samples
+      slice.index[[i]] <- setdiff(slice.index[[i]], selected.index)
+      sample.index <- union(sample.index, selected.index)
+    }
+
+    # update varibles in iteration
+    residue <- nbasis - length(sample.index)
+    large.slice.index <- c(1:nslice)[large.slice]
+    iter <- iter + 1
+  }
+
 
   sample.index <- sort(sample.index)
 
