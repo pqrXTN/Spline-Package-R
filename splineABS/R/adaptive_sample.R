@@ -35,7 +35,7 @@ adap.sample <- function(y, nbasis=NULL, nslice=10, sliceMethod=NULL){
   # sampling set initially includes the minimum and maximum
   nobs <- length(y)
 
-  # try not to find bounds becasue it is not plausible.
+  # not try to find bounds becasue it is not plausible.
   # sample.index <- c(find.boundary(x), which.min(y), which.max(y))
   sample.index <- c(which.min(y), which.max(y))
 
@@ -79,9 +79,9 @@ adap.sample <- function(y, nbasis=NULL, nslice=10, sliceMethod=NULL){
   # deal with min and max
   slice.index[[1]] <- setdiff(slice.index[[1]], which.min(y))
   slice.index[[nslice]] <- setdiff(slice.index[[nslice]], which.max(y))
-  if(length(slice.index[[1]]) ==0){
+  if(length(slice.index[[1]]) == 0){
     large.slice[1] <- FALSE
-  }else if(length(slice.index[[nslice]]) ==0){
+  }else if(length(slice.index[[nslice]]) == 0){
     large.slice[nslice] <- FALSE
   }
 
@@ -101,20 +101,21 @@ adap.sample <- function(y, nbasis=NULL, nslice=10, sliceMethod=NULL){
     ## use function allocateToSlice in this package
     nbasis.slice <- allocateToSlice(nelement = residue, nslice = nslice.new)
 
-    for(i in large.slice.index){
+    for(i in 1:length(large.slice.index)){
       # If the size of a slice is less than nbasis.slice, we take all members in
       # rather than sampling.
-      if(length(slice.index[[i]]) >= nbasis.slice[i]){
-        selected.index <- sample(slice.index[[i]], nbasis.slice[i])
+      initial.id <- large.slice.index[[i]]
+      if(length(slice.index[[initial.id]]) > nbasis.slice[i]){
+        selected.index <- sample(slice.index[[initial.id]], nbasis.slice[i])
 
       }else{
-        selected.index <- slice.index[[i]]
-        large.slice[i] <- FALSE
+        selected.index <- slice.index[[initial.id]]
+        large.slice[initial.id] <- FALSE
       }
 
       # record remain space in each slice;
       #  add select.index into whole samples
-      slice.index[[i]] <- setdiff(slice.index[[i]], selected.index)
+      slice.index[[initial.id]] <- setdiff(slice.index[[initial.id]], selected.index)
       sample.index <- union(sample.index, selected.index)
     }
 
